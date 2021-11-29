@@ -4,13 +4,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.asimodabas.catch_bomb.databinding.ActivityMainBinding
+import kotlin.random.Random
+
 
 class MainActivity : AppCompatActivity() {
 
     var score = 0
+    var imageArray = ArrayList<ImageView>()
+
 
     private lateinit var binding: ActivityMainBinding
 
@@ -19,6 +24,22 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        //ImageArray
+        imageArray.add(binding.imageView)
+        imageArray.add(binding.imageView2)
+        imageArray.add(binding.imageView9)
+        imageArray.add(binding.imageView8)
+        imageArray.add(binding.imageView7)
+        imageArray.add(binding.imageView6)
+        imageArray.add(binding.imageView5)
+        imageArray.add(binding.imageView4)
+        imageArray.add(binding.imageView3)
+        imageArray.add(binding.imageView10)
+        imageArray.add(binding.imageView11)
+        imageArray.add(binding.imageView12)
+
+        hideImages()
 
         // CountDownTimer
 
@@ -119,8 +140,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun increaseScore() {
+
         score += 1
         binding.scoreText.text = "Score : $score"
     }
 
+    fun hideImages(){
+
+        for (image in imageArray){
+            image.visibility = View.INVISIBLE
+        }
+
+        val random = Random
+        val randomIndex = random.nextInt(13)
+        imageArray[randomIndex].visibility = View.VISIBLE
+    }
 }
