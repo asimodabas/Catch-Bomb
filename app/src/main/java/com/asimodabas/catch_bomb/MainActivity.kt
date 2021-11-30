@@ -52,7 +52,12 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
+
                 binding.timeText.text = "Time : 0"
+                handler.removeCallbacks(runnable)
+                for (image in imageArray){
+                    image.visibility = View.INVISIBLE
+                }
 
                 //Alert
 
