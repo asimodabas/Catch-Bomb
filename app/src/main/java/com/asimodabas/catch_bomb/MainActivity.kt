@@ -3,6 +3,7 @@ package com.asimodabas.catch_bomb
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -15,6 +16,8 @@ class MainActivity : AppCompatActivity() {
 
     var score = 0
     var imageArray = ArrayList<ImageView>()
+    var handler = Handler()
+    var runnable = Runnable { }
 
 
     private lateinit var binding: ActivityMainBinding
@@ -56,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                 val alert = AlertDialog.Builder(this@MainActivity)
                 alert.setTitle("Game Over")
                 alert.setMessage("Restart the game ?")
-                alert.setPositiveButton("Yes"){dialog,which ->
+                alert.setPositiveButton("Yes") { dialog, which ->
 
                     //Restart
                     val intent = intent
@@ -64,9 +67,9 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
 
-                alert.setNegativeButton("No"){dialog,which ->
+                alert.setNegativeButton("No") { dialog, which ->
 
-                    Toast.makeText(this@MainActivity,"Game Over",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Game Over", Toast.LENGTH_SHORT).show()
 
                 }
                 alert.show()
@@ -145,14 +148,23 @@ class MainActivity : AppCompatActivity() {
         binding.scoreText.text = "Score : $score"
     }
 
-    fun hideImages(){
+    fun hideImages() {
 
-        for (image in imageArray){
-            image.visibility = View.INVISIBLE
+        runnable = object : Runnable {
+            override fun run() {
+                for (image in imageArray) {
+                    image.visibility = View.INVISIBLE
+                }
+
+                val random = Random
+                val randomIndex = random.nextInt(12)
+                imageArray[randomIndex].visibility = View.VISIBLE
+
+                handler.postDelayed(runnable, 500)
+            }
         }
+        handler.post(runnable)
 
-        val random = Random
-        val randomIndex = random.nextInt(13)
-        imageArray[randomIndex].visibility = View.VISIBLE
+
     }
 }
